@@ -3,12 +3,35 @@
  */
 package graphics;
 
+import javax.swing.JFrame;
+
+import graphics.gui.ImagePainting;
+import graphics.linalg.Vector3;
+import graphics.model.Scene;
+import graphics.model.Vertex;
+import graphics.shaders.OrthogonalPainter;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
+    public static void showOrthogonalProjection() {
+        Scene scene = new Scene(new Vertex(new Vector3(0, 0, 0)));
+
+        OrthogonalPainter painter = new OrthogonalPainter();
+
+        JFrame frame = new JFrame("Orthogonal Projection");
+        frame.setSize(540, 540);
+
+        ImagePainting painting = new ImagePainting(painter.paintScene(scene));
+
+        frame.add(painting);
+
+        frame.setVisible(true);
+    }
+
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        showOrthogonalProjection();
     }
 }
