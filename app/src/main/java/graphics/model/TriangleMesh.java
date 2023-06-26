@@ -2,11 +2,12 @@ package graphics.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import graphics.linalg.Vector3;
 
-public class TriangleMesh implements Shape {
+public class TriangleMesh implements Shape, Transformable<TriangleMesh> {
     private Triangle[] triangles;
 
     public Triangle[] getTriangles() {
@@ -53,5 +54,11 @@ public class TriangleMesh implements Shape {
         }
 
         return new TriangleMesh(triangles);
+    }
+
+    @Override
+    public TriangleMesh transform(double[][] transformation) {
+        return new TriangleMesh(
+                Arrays.stream(triangles).map(t -> t.transform(transformation)).toArray(Triangle[]::new));
     }
 }

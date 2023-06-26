@@ -1,6 +1,8 @@
 package graphics.linalg;
 
-public class Vector3 {
+import graphics.model.Transformable;
+
+public class Vector3 implements Transformable<Vector3> {
     public final double x, y, z;
 
     public Vector3(double[] idk) {
@@ -52,5 +54,10 @@ public class Vector3 {
                 { z },
                 { 1 } // w, for translation
         };
+    }
+
+    @Override
+    public Vector3 transform(double[][] transformation) {
+        return new Vector3(LinAlg.matMult(transformation, vstack4()));
     }
 }
