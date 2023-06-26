@@ -5,11 +5,11 @@ package graphics;
 
 import javax.swing.JFrame;
 
-import graphics.gui.ImagePainting;
 import graphics.linalg.Vector3;
 import graphics.model.Scene;
+import graphics.model.Triangle;
 import graphics.model.Vertex;
-import graphics.shaders.OrthogonalPainter;
+import graphics.shaders.OrthogonalView;
 
 public class App {
     public String getGreeting() {
@@ -17,16 +17,19 @@ public class App {
     }
 
     public static void showOrthogonalProjection() {
-        Scene scene = new Scene(new Vertex(new Vector3(0, 0, 0)));
-
-        OrthogonalPainter painter = new OrthogonalPainter();
+        Scene scene = new Scene(new Triangle(
+                new Vertex(new Vector3(0, 0, 0)),
+                new Vertex(new Vector3(1, 0, 0)),
+                new Vertex(new Vector3(0, 0, 1))));
 
         JFrame frame = new JFrame("Orthogonal Projection");
         frame.setSize(540, 540);
 
-        ImagePainting painting = new ImagePainting(painter.paintScene(scene));
+        OrthogonalView panel = new OrthogonalView();
 
-        frame.add(painting);
+        panel.scene = scene;
+
+        frame.add(panel);
 
         frame.setVisible(true);
     }
