@@ -5,10 +5,9 @@ package graphics;
 
 import javax.swing.JFrame;
 
-import graphics.linalg.Vector3;
+import graphics.linalg.LinAlg;
 import graphics.model.Scene;
-import graphics.model.Triangle;
-import graphics.model.Vertex;
+import graphics.model.TriangleMesh;
 import graphics.shaders.OrthogonalView;
 
 public class App {
@@ -17,10 +16,8 @@ public class App {
     }
 
     public static void showOrthogonalProjection() {
-        Scene scene = new Scene(new Triangle(
-                new Vertex(new Vector3(0, 0, 0)),
-                new Vertex(new Vector3(1, 0, 0)),
-                new Vertex(new Vector3(0, 0, 1))));
+        Scene scene = new Scene(
+                TriangleMesh.parseIndexedTriangles("app/src/main/resources/shapes/cube.csv"));
 
         JFrame frame = new JFrame("Orthogonal Projection");
         frame.setSize(540, 540);
@@ -32,6 +29,40 @@ public class App {
         frame.add(panel);
 
         frame.setVisible(true);
+
+        int count = 0;
+
+        while (true) {
+            double rotFactor = count / 3600000.0;
+
+            panel.preViewTransformation = LinAlg.composeMany(
+                    new double[][] { // scale
+                            { 0.5, 0, 0, 0 },
+                            { 0, 0.5, 0, 0 },
+                            { 0, 0, 0.5, 0 },
+                            { 0, 0, 0, 1 } },
+                    new double[][] { // rotate cube up
+                            { 1, 0, 0, 0 },
+                            { 0, Math.cos(Math.PI / 4), -Math.sin(Math.PI / 4), 0 },
+                            { 0, Math.sin(Math.PI / 4), Math.cos(Math.PI / 4), 0 },
+                            { 0, 0, 0, 1 }
+                    },
+                    new double[][] { // rotate right
+                            { Math.cos(rotFactor), -Math.sin(rotFactor), 0, 0 },
+                            { Math.sin(rotFactor), Math.cos(rotFactor), 0, 0 },
+                            { 0, 0, 1, 0 },
+                            { 0, 0, 0, 1 }
+                    });
+
+            frame.repaint();
+            count++;
+
+            // try {
+            // Thread.sleep(100);
+            // } catch (InterruptedException e) {
+            // e.printStackTrace();
+            // }
+        }
     }
 
     public static void main(String[] args) {

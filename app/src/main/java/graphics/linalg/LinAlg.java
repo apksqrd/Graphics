@@ -1,7 +1,11 @@
 package graphics.linalg;
 
 public class LinAlg {
+    public static double[][] IDENTITY4 = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
+
     public static double[][] matMult(double[][] mat0, double[][] mat1) {
+        // TODO: Check dims
+
         double[][] product = new double[mat0.length][mat1[0].length];
 
         for (int row = 0; row < product.length; row++) {
@@ -16,6 +20,14 @@ public class LinAlg {
             }
         }
 
+        return product;
+    }
+
+    public static double[][] composeMany(double[][]... transformations) {
+        double[][] product = IDENTITY4;
+        for (double[][] transformation : transformations) {
+            product = matMult(product, transformation);
+        }
         return product;
     }
 }

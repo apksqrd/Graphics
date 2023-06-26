@@ -3,6 +3,20 @@ package graphics.linalg;
 public class Vector3 {
     public final double x, y, z;
 
+    public Vector3(double[] idk) {
+        // TODO: Rename
+        x = idk[0];
+        y = idk[1];
+        z = idk[2];
+    }
+
+    public Vector3(double[][] idk) {
+        // TODO: Rename
+        x = idk[0][0];
+        y = idk[1][0];
+        z = idk[2][0];
+    }
+
     public Vector3(double x, double y, double z) {
         this.x = x;
         this.y = y;
